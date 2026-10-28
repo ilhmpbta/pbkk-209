@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChatSession;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ChatSessionController extends Controller

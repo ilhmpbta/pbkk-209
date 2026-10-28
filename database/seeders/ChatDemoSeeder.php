@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\ChatMessage;
 use App\Models\ChatSession;
+use App\Models\LogAnalyzer;
+use App\Models\MalwareScanner;
+use App\Models\SecurityScanner;
 use App\Models\ToolExecutionLog;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -46,6 +49,23 @@ class ChatDemoSeeder extends Seeder
                     ])
                 );
             }
+        }
+
+        $this->seedAgentScanners();
+    }
+
+    private function seedAgentScanners(): void
+    {
+        $scannerModels = [
+            SecurityScanner::factory()->create(['name' => 'port-scan-agent', 'status' => 'completed']),
+            MalwareScanner::factory()->create(['name' => 'malware-agent', 'status' => 'completed']),
+            LogAnalyzer::factory()->create(['name' => 'log-analyzer-agent', 'status' => 'completed']),
+        ];
+
+        foreach ($scannerModels as $scanner) {
+            $scanner->toolExecutionLogs()->saveMany(
+                ToolExecutionLog::factory()->count(3)->make()
+            );
         }
     }
 }
